@@ -199,6 +199,7 @@ static void resizeclient(Client *c, int x, int y, int w, int h);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
+static void runAutostart(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
@@ -1333,6 +1334,19 @@ restack(Monitor *m)
 }
 
 void
+runAutostart(void)
+{
+	/* `&&` will stop at the erring `cd`s if there is no such directory;
+	   if the files exist but aren't executable, it'll err and stop running
+	   the command and move on. */
+	/* autostart_blocking.sh will be awaited to finish before dwm continues
+	   its lifecycle. if this depends on something which exists only after
+	   dwm has started, this will lock and never do anything. */
+	system("cd ~/.dwm && ./autostart_blocking.sh");
+	system("cd ~/.dwm && ./autostart.sh &");
+}
+
+void
 run(void)
 {
 	XEvent ev;
@@ -2105,6 +2119,7 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
+	runAutostart();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
