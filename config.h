@@ -29,7 +29,7 @@ static const Rule rules[] = {
 	/* class 			    instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     			NULL,       NULL,       0,            1,           -1 },
 	{ "firefox",  			NULL,       NULL,       1 << 0,       0,           -1 },
-	{ "discord-ptb",  		NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "discord",  	 		NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -62,11 +62,23 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "alacritty", "--working-directory", "/home/proximyst/", NULL };
 static const char *owocmd[]   = { "herbstscrot", NULL };
 
+static const char *voltogg[] = { "pamixer", "-t", NULL };
+static const char *volincr[] = { "pamixer", "-i", "1", NULL };
+static const char *voldecr[] = { "pamixer", "-d", "1", NULL };
+static const char *volincr5[] = { "pamixer", "-i", "5", NULL };
+static const char *voldecr5[] = { "pamixer", "-d", "5", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ NULL,                         XK_Print,  spawn,          {.v = owocmd} },
+	{ 0,                            XK_Print,  spawn,          {.v = owocmd} },
+
+	{ 0, 				XF86XK_AudioMute, 			spawn, 		{ .v = voltogg } },
+	{ 0, 				XF86XK_AudioRaiseVolume, 	spawn, 		{ .v = volincr5 } },
+	{ 0, 				XF86XK_AudioLowerVolume, 	spawn, 		{ .v = voldecr5 } },
+	{ ShiftMask, 		XF86XK_AudioRaiseVolume, 	spawn, 		{ .v = volincr } },
+	{ ShiftMask,		XF86XK_AudioLowerVolume, 	spawn, 		{ .v = voldecr } },
 
 	// As fullscreen within applications works as I've always imagined it
 	// should, I see no reason in having a way to toggle the bar whatsoever.
