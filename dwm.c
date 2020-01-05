@@ -20,6 +20,14 @@
  *
  * To understand everything else, start reading main().
  */
+
+/*
+ * All applied patches:
+ * https://dwm.suckless.org/patches/monoclesymbol/dwm-monoclesymbol-6.2.diff - always use the monocle symbol
+ * https://dwm.suckless.org/patches/focusonclick/dwm-focusonclick-20171030-6aa8e37.diff - only focus on clicking a window, as in herbstluftwm
+ * https://dwm.suckless.org/patches/autostart/dwm-autostart-20161205-bb3bd6f.diff - run bash script on start
+ */
+
 #include <errno.h>
 #include <locale.h>
 #include <signal.h>
@@ -1103,14 +1111,8 @@ maprequest(XEvent *e)
 void
 monocle(Monitor *m)
 {
-	unsigned int n = 0;
 	Client *c;
 
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
 		resize(c, m->wx, m->wy, m->ww - 2 * c->bw, m->wh - 2 * c->bw, 0);
 }
