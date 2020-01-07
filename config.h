@@ -58,7 +58,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gray2, "-sf", col_gray4, NULL };
+// I prefer having the command around just in case.
+//static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gray2, "-sf", col_gray4, NULL };
+static const char dmenuInvoke[] = "dmenu -i -fn 'Source Code Pro for Powerline:size=10' -m 0 -nb '#222222' -nf '#8c8c8c' -sb '#282828' -sf '#eeeeee'";
+static const char *dmenucmd[] = { "j4-dmenu-desktop", "--dmenu", dmenuInvoke, NULL };
 static const char *termcmd[]  = { "alacritty", "--working-directory", "/home/proximyst/", NULL };
 static const char *owocmd[]   = { "herbstscrot", NULL };
 
